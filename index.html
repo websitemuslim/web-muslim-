@@ -3,489 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muslim Toolkit - Tools Islami Digital</title>
-
+    <title>uchihav4.1</title>
     <style>
-        /* --- STYLE DASAR (LIGHT MODE) --- */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #e9eef2;
-            transition: background-color 0.5s, color 0.5s; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .assistant-container {
-            max-width: 800px;
-            width: 100%;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.5s, box-shadow 0.5s;
-        }
+        body { background: #0a0c10; color: #c9d1d9; font-family: 'Consolas', monospace; margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        .header { background: #161b22; padding: 10px 15px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
         
-        #app-content {
-            display: block; 
-        }
+        .main-layout { display: flex; justify-content: center; align-items: flex-start; padding: 15px; flex-grow: 1; overflow-y: auto; gap: 20px; }
         
-        .welcome-message {
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: 600;
-            color: #4CAF50;
-            margin-bottom: 15px;
-            padding: 10px;
-            border: 2px solid #4CAF50;
-            border-radius: 8px;
-            background-color: #e8f5e9;
-            transition: background-color 0.5s, color 0.5s;
-        }
-        h1 {
-            color: #1a5a9e;
-            text-align: center;
-            border-bottom: 2px solid #1a5a9e;
-            padding-bottom: 10px;
-            transition: color 0.3s, border-bottom-color 0.3s;
-        }
-        h3 {
-            color: #333;
-            margin-top: 25px;
-            transition: color 0.5s;
-        }
-        hr {
-            border: 0;
-            height: 1px;
-            background-color: #ddd;
-            margin: 20px 0;
-            transition: background-color 0.5s;
-        }
-        #display-waktu {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #e8491d;
-            text-align: center;
-            margin-bottom: 10px; 
-            padding: 10px;
-            background-color: #fff3e0;
-            border-radius: 8px;
-            transition: background-color 0.5s, color 0.5s;
-        }
+        .control-panel { width: 420px; }
+        .card { background: #111418; border: 1px solid #30363d; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; box-shadow: 0 4px 15px rgba(0,0,0,0.6); margin-bottom: 10px; }
+        h3 { margin: 0 0 8px 0; color: #58a6ff; font-size: 0.85em; text-transform: uppercase; border-bottom: 1px solid #21262d; padding-bottom: 5px; }
 
-        #shalat-notif {
-            padding: 15px;
-            background-color: #fce4ec;
-            border: 2px solid #d81b60;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 1.1em;
-            margin-bottom: 20px;
-            display: none;
-            transition: background-color 0.5s, border-color 0.5s, color 0.5s;
-        }
-        #shalat-notif strong {
-            display: block;
-            font-size: 1.3em;
-            color: #d81b60;
-            margin-bottom: 5px;
-        }
-        .niat-teks {
-            font-style: italic;
-            margin-top: 10px;
-            font-size: 0.9em;
-            background-color: #fff8fb;
-            padding: 5px;
-            border-radius: 4px;
-        }
-
-        #countdown-notif {
-            text-align: center; 
-            margin-top: 10px; 
-            font-size: 1.1em; 
-            color: #008cba;
-            padding: 5px 0;
-            transition: color 0.5s;
-        }
-        .jadwal-salat-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .waktu-salat {
-            padding: 10px;
-            background-color: #e3f2fd;
-            border-radius: 5px;
-            text-align: center;
-            border: 1px solid #bbdefb;
-            transition: background-color 0.5s, border-color 0.5s;
-        }
-        .waktu-salat strong {
-            display: block;
-            font-size: 1.2em;
-            color: #0d47a1;
-            transition: color 0.5s;
-        }
-        #terjemahan-output {
-            margin-top: 10px;
-            padding: 15px;
-            border-radius: 5px;
-            background-color: #f0f8ff;
-            border: 1px solid #cceeff;
-            min-height: 40px;
-            text-align: right; 
-            font-size: 1.5em;
-            direction: rtl; 
-            transition: background-color 0.5s, border-color 0.5s;
-        }
-        #quran-output {
-            margin-top: 10px;
-            font-size: 1em;
-            padding: 10px;
-            background-color: #e8f5e9; 
-            border: 1px solid #c8e6c9;
-            border-radius: 5px;
-            min-height: 40px;
-            transition: background-color 0.5s, border-color 0.5s;
-        }
-        .input-group {
-            display: flex;
-            margin-bottom: 15px;
-            align-items: center; 
-        }
-        input[type="text"] {
-            flex-grow: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            transition: background-color 0.5s, border-color 0.5s, color 0.5s;
-        }
-        button {
-            padding: 10px 15px;
-            background-color: #008cba;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-left: 5px;
-            transition: background-color 0.2s;
-            white-space: nowrap; 
-        }
-        button:hover {
-            background-color: #007bb0;
-        }
-        #cari-salawat-btn {
-            background-color: #4CAF50;
-        }
-        .tiktok-download-group button {
-            flex-grow: 1;
-            margin-left: 0; 
-            margin-right: 10px; 
-            padding: 12px 15px;
-        }
-        #big-search-form {
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f5f5f5;
-            border-radius: 10px;
-            border: 1px solid #eee;
-            transition: background-color 0.5s;
-        }
+        input, button { width: 100%; background: #0d1117; border: 1px solid #30363d; color: #58a6ff; padding: 7px; margin: 3px 0; border-radius: 4px; font-size: 11px; font-family: inherit; box-sizing: border-box; }
+        button { cursor: pointer; font-weight: bold; transition: 0.2s; }
         
-        #dark-mode-toggle {
-            float: right;
-            background-color: #555;
-            color: white;
-            padding: 8px 12px;
-            font-size: 0.9em;
-            margin-left: 10px; 
-            margin-bottom: 10px;
-        }
+        .btn-red { color: #f85149; border-color: #f85149; background: rgba(248, 81, 73, 0.05); }
+        .btn-blue { color: #58a6ff; border-color: #58a6ff; background: rgba(88, 166, 255, 0.05); }
 
-        /* --- STYLE DARK MODE --- */
-        .dark-mode {
-            background-color: #121212 !important;
-            color: #e0e0e0;
-        }
-        .dark-mode .assistant-container {
-            background-color: #1e1e1e;
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
-        }
-        .dark-mode h1, .dark-mode h3 {
-            color: #e0e0e0 !important;
-            border-bottom-color: #444 !important;
-        }
-        .dark-mode hr {
-            background-color: #444;
-        }
-        .dark-mode .welcome-message {
-            background-color: #38761d;
-            color: #e0e0e0;
-            border-color: #4CAF50;
-        }
-        .dark-mode #display-waktu {
-            background-color: #333;
-            color: #ffb74d;
-        }
-        .dark-mode #countdown-notif {
-            color: #81d4fa;
-        }
-        .dark-mode .jadwal-salat-grid .waktu-salat {
-            background-color: #333;
-            border-color: #555;
-            color: #ccc;
-        }
-        .dark-mode .waktu-salat strong {
-            color: #bbdefb;
-        }
-        .dark-mode #big-search-form {
-            background-color: #2a2a2a;
-            border-color: #333;
-        }
-        .dark-mode input[type="text"] {
-            background-color: #444;
-            border-color: #666;
-            color: #fff;
-        }
-        .dark-mode #quran-output, .dark-mode #terjemahan-output {
-            background-color: #333;
-            border-color: #555;
-            color: #fff;
-        }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 12px; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+        .ping-box { background: #0d1117; border: 1px solid #21262d; border-radius: 4px; padding: 8px; margin-top: 5px; }
+        .ping-info { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 5px; }
+        .ping-bar-container { display: flex; align-items: flex-end; gap: 2px; height: 25px; }
+        .ping-bar { flex: 1; background: #238636; min-height: 2px; transition: height 0.3s; }
+        .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #484f58; margin-right: 5px; }
+
+        /* Terminal di-kecilkan di sini */
+        .terminal { height: 120px; background: #010409; border-top: 1px solid #30363d; padding: 10px; overflow-y: auto; font-size: 10.5px; color: #8b949e; line-height: 1.4; }
     </style>
 </head>
 <body>
-    
-    <div class="assistant-container">
+
+<div class="header">
+    <div><b>uchihav4</b> <span style="color:#8b949e">v4.1 [?_DEV]</span></div>
+    <div id="clock">00:00:00</div>
+</div>
+
+<div class="main-layout">
+    <div class="control-panel">
         
-        <div id="app-content">
-            
-            <button id="dark-mode-toggle" onclick="toggleDarkMode()">☀️ Mode Gelap</button>
-
-            <div class="welcome-message">
-                Welcome di Web Muslim
-            </div>
-            
-            <h1 id="main-title">"SELAMAT DATANG" <br> DI BUAT OLEH RAIHAN-DEV</h1>
-            
-            <hr>
-            
-            <h3>🚀 Pencarian Cepat Google</h3>
-            <form id="big-search-form" action="https://www.google.com/search" method="GET" target="_blank">
-                <input type="text" name="q" id="big-search-input" placeholder="Cari apapun, di mana pun...">
-                <button type="submit">Cari Sekarang</button>
-            </form>
-            
-            <hr>
-
-            <h3>⏰ Waktu Saat Ini</h3>
-            <div id="display-waktu">Memuat Waktu...</div>
-            
-            <div id="countdown-notif">Memuat hitungan mundur...</div>
-
-            <div id="shalat-notif">
-                <strong>📢 WAKTU SOLAT TELAH TIBA!</strong>
-                <p>Segera ambil wudhu, siapkan diri Anda untuk beribadah.</p>
-                <p>Jangan tunda-tunda waktu shalat, Raihan.</p>
-                <div class="niat-teks">
-                    Niat Shalat Dzuhur: **"Ushalli fardhadzh-zhuhri arba'a raka'aatin mustaqbilal qiblati adaa-an lillahi ta'aala."**
-                </div>
-            </div>
-
-            <hr>
-
-            <h3>🕌 Jadwal Salat</h3>
-            <p id="prayer-location-display" style="text-align: center; font-style: italic; color: #008cba; font-size: 0.9em;">Jadwal statis untuk default lokasi. Atur lokasi di bawah.</p>
-            <div class="jadwal-salat-grid">
-                <div class="waktu-salat"><strong id="imsak-time">04:00</strong><small>Imsak</small></div>
-                <div class="waktu-salat"><strong id="subuh-time">04:20</strong><small>Subuh</small></div>
-                <div class="waktu-salat"><strong id="syuruk-time">05:40</strong><small>Syuruk</small></div>
-                <div class="waktu-salat"><strong id="terbit-time">05:45</strong><small>Terbit</small></div>
-                <div class="waktu-salat"><strong id="dzuhur-time">11:45</strong><small>Dzuhur</small></div>
-                <div class="waktu-salat"><strong id="ashar-time">15:05</strong><small>Ashar</small></div>
-                <div class="waktu-salat"><strong id="maghrib-time">17:50</strong><small>Maghrib</small></div>
-                <div class="waktu-salat"><strong id="isya-time">19:00</strong><small>Isya</small></div>
-            </div>
-            
-            <div style="text-align: center; margin-bottom: 10px;">
-                <button id="set-location-btn" onclick="getPrayerTimesByLocation()">Atur Lokasi & Jadwal Otomatis</button>
-            </div>
-            
-            <div style="text-align: center; margin-bottom: 20px; padding: 10px; border: 1px dashed #e8491d; border-radius: 8px;">
-                <iframe width="100%" height="315" src="https://www.youtube.com/embed/IaqihLTtQ1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                <p style="font-size: 0.8em; margin-top: 5px; color: #555;">(JANGAN LUPA SOLAT BRE)</p>
-            </div>
-
-            <hr>
-            
-            <h3>🎶 Cari Salawat Favorit</h3>
-            <div class="input-group">
-                <input type="text" id="cari-salawat-input" placeholder="Contoh: Sholawat Badar, Ya Hanana...">
-                <button id="cari-salawat-btn" onclick="cariSalawat()">Cari Salawat</button>
-            </div>
-            
-            <hr>
-
-            <h3>🕋 Qur'an Digital (Cari Surah/Ayat)</h3>
-            <div class="input-group">
-                <input type="text" id="quran-input" placeholder="Surah/Ayat atau Kata Kunci Qur'an...">
-                <button onclick="cariQuranDigital()">Cari / Baca</button>
-            </div>
-            <div id="quran-output">Silakan masukkan Surah atau Ayat.</div>
-            
-            <hr>
-
-            <h3>📝 Terjemahan Bahasa Arab</h3>
-            <div class="input-group">
-                <input type="text" id="arab-input" placeholder="Ketik kata/frasa Indonesia...">
-                <button onclick="terjemahkanArab()">Terjemahkan</button>
-            </div>
-            <div id="terjemahan-output">Hasil muncul di sini...</div>
-            
-            <hr>
-
-            <h3>⬇️ Unduh TikTok (MP4/MP3)</h3>
-            <div class="input-group">
-                <input type="text" id="tiktok-link-input" placeholder="Tempel link TikTok di sini...">
-            </div>
-            <div class="input-group tiktok-download-group">
-                <button onclick="downloadTikTokMP4()">Unduh MP4</button>
-                <button style="background-color: #e8491d;" onclick="downloadTikTokMP3()">Unduh MP3</button>
-            </div>
-            
-            <hr>
-
-            <h3>🧭 Arah Kiblat</h3>
-            <p style="text-align: center; font-size: 0.9em; color: #555; margin-bottom: 10px;">Gunakan kamera HP kamu untuk mencari arah Ka'bah secara akurat.</p>
-            <button onclick="bukaKiblat()" style="width: 100%; background-color: #ff9800;">Buka Penunjuk Kiblat (Google)</button>
-
-            <hr>
-
-            <h3>🕋 Peta Masjid Terdekat</h3>
-            <button onclick="petaMasjidTerdekat()" style="width: 100%;">Cari Masjid via Google Maps</button>
-            
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/B7aFTOlA1Fo?autoplay=1&mute=1&loop=1&playlist=B7aFTOlA1Fo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
+        
+        <div class="card">
+            <h3>Network Ping Visualizer</h3>
+            <input type="text" id="ping_ip" placeholder="Target IP for Ping">
+            <div class="ping-box">
+                <div class="ping-info">
+                    <span><span id="p-dot" class="status-dot"></span>Status: <span id="p-status">Idle</span></span>
+                    <span>Latency: <span id="p-ms">--</span> ms</span>
+                </div>
+                <div class="ping-bar-container" id="bar-container"></div>
+            </div>
+            <button class="btn-blue" id="pingBtn" onclick="togglePing()">START LIVE MONITOR</button>
+        </div>
+
+        <div class="card">
+            <h3>Attack & Control</h3>
+            <input type="text" id="ip" value="192.168.100.1">
+            <button class="btn-blue" onclick="window.open('http://'+document.getElementById('ip').value)">LOGIN ADMIN UI</button>
+            <button class="btn-red" id="atkBtn" onclick="runAtk()">EXECUTE UDP FLOOD</button>
+        </div>
+
+        <div class="card">
+            <h3>Manual IP Kill</h3>
+            <input type="text" id="kill_ip" placeholder="Target IP to Kill">
+            <button class="btn-red" onclick="runKill()">TERMINATE CONNECTION</button>
+        </div>
+
     </div>
+</div>
 
-    <script>
-        const PRAYER_TIMES_CONFIG = {
-            'Imsak': '04:00', 'Subuh': '04:20', 'Syuruk': '05:40', 
-            'Terbit': '05:45', 'Dzuhur': '11:45', 'Ashar': '15:05',
-            'Maghrib': '17:50', 'Isya': '19:00'
-        };
-        
-        let dzuhurNotified = false;
+<div class="terminal" id="term">
+    <div style="color: #3fb950;">// System v4.1 ready. Terminal resized to compact mode.</div>
+</div>
 
-        function updateWaktu() {
-            const waktuDisplay = document.getElementById('display-waktu');
-            const now = new Date();
-            const waktuString = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+<script>
+    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+
+    let pingInterval = null;
+    const barContainer = document.getElementById('bar-container');
+    
+    for(let i=0; i<25; i++) {
+        let bar = document.createElement('div');
+        bar.className = 'ping-bar';
+        bar.style.height = '2px';
+        barContainer.appendChild(bar);
+    }
+
+    function log(m, c = "#8b949e") {
+        const t = document.getElementById('term');
+        const d = document.createElement('div');
+        d.style.color = c;
+        d.innerHTML = `> [${new Date().toLocaleTimeString()}] ${m}`;
+        t.appendChild(d);
+        t.scrollTop = t.scrollHeight;
+    }
+
+    function togglePing() {
+        const btn = document.getElementById('pingBtn');
+        const target = document.getElementById('ping_ip').value;
+        if (!target) return log("Error: Target IP required!", "#f85149");
+
+        if (pingInterval) {
+            clearInterval(pingInterval);
+            pingInterval = null;
+            btn.innerText = "START LIVE MONITOR";
+            document.getElementById('p-status').innerText = "Stopped";
+            document.getElementById('p-dot').style.background = "#484f58";
+        } else {
+            btn.innerText = "STOP MONITORING";
+            document.getElementById('p-status').innerText = "Monitoring...";
+            document.getElementById('p-dot').style.background = "#3fb950";
             
-            if (waktuDisplay) waktuDisplay.textContent = waktuString;
-
-            const dzuhurTime = PRAYER_TIMES_CONFIG['Dzuhur'].split(':');
-            if (now.getHours() === parseInt(dzuhurTime[0]) && now.getMinutes() === parseInt(dzuhurTime[1]) && !dzuhurNotified) {
-                document.getElementById('shalat-notif').style.display = 'block';
-                dzuhurNotified = true;
-            }
+            pingInterval = setInterval(() => {
+                const ms = Math.floor(Math.random() * (150 - 20) + 20);
+                document.getElementById('p-ms').innerText = ms;
+                const bars = document.getElementsByClassName('ping-bar');
+                for(let i=0; i < bars.length - 1; i++) {
+                    bars[i].style.height = bars[i+1].style.height;
+                    bars[i].style.background = bars[i+1].style.background;
+                }
+                const newHeight = (ms / 150) * 100;
+                bars[bars.length-1].style.height = newHeight + '%';
+                bars[bars.length-1].style.background = ms > 100 ? "#f85149" : "#238636";
+            }, 500);
         }
-        
-        function updateCountdown() {
-            const today = new Date();
-            const now = today.getTime();
-            let nextPrayerName = '';
-            let nextPrayerTimeMillis = 0;
-            const prayerArray = [];
+    }
 
-            for (const name in PRAYER_TIMES_CONFIG) {
-                const [h, m] = PRAYER_TIMES_CONFIG[name].split(':').map(Number);
-                const pDate = new Date(today);
-                pDate.setHours(h, m, 0, 0);
-                prayerArray.push({ name, time: pDate.getTime() });
-            }
-            
-            prayerArray.sort((a, b) => a.time - b.time);
-            const next = prayerArray.find(p => p.time > now);
+    function runAtk() { log("UDP Flood attack executed.", "#f85149"); }
+    function runKill() { log("Target connection terminated.", "#f85149"); }
+</script>
 
-            if (next) {
-                nextPrayerName = next.name;
-                nextPrayerTimeMillis = next.time;
-            } else {
-                nextPrayerName = 'Subuh Besok';
-                const tomorrow = new Date(today);
-                tomorrow.setDate(today.getDate() + 1);
-                const [h, m] = PRAYER_TIMES_CONFIG['Subuh'].split(':').map(Number);
-                tomorrow.setHours(h, m, 0, 0);
-                nextPrayerTimeMillis = tomorrow.getTime();
-            }
-            
-            const diff = Math.floor((nextPrayerTimeMillis - now) / 1000);
-            const h = String(Math.floor(diff / 3600)).padStart(2, '0');
-            const m = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
-            const s = String(diff % 60).padStart(2, '0');
-            
-            document.getElementById('countdown-notif').innerHTML = `⏱️ **Menuju ${nextPrayerName}:** ${h}:${m}:${s}`;
-            setTimeout(updateCountdown, 1000);
-        }
-
-        function getPrayerTimesByLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((p) => {
-                    alert(`Lokasi: ${p.coords.latitude}, ${p.coords.longitude}. Silakan update PRAYER_TIMES_CONFIG di kode.`);
-                });
-            }
-        }
-
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            document.getElementById('dark-mode-toggle').innerHTML = isDark ? '🌙 Mode Terang' : '☀️ Mode Gelap';
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        }
-
-        function cariSalawat() {
-            const q = document.getElementById('cari-salawat-input').value;
-            if(q) window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(q)} sholawat`, '_blank');
-        }
-
-        function cariQuranDigital() {
-            const q = document.getElementById('quran-input').value;
-            if(q) window.open(`https://www.google.com/search?q=Qur'an Kemenag ${encodeURIComponent(q)}`, '_blank');
-        }
-
-        function terjemahkanArab() {
-            const i = document.getElementById('arab-input').value.toLowerCase();
-            const o = document.getElementById('terjemahan-output');
-            const dict = { "selamat pagi": "صَبَاحُ الخَيْر", "terima kasih": "شُكْرًا", "assalamualaikum": "وَعَلَيْكُمُ السَّلَام" };
-            o.textContent = dict[i] || "Terjemahan tidak ditemukan";
-        }
-
-        function downloadTikTokMP4() {
-            const l = document.getElementById('tiktok-link-input').value;
-            if(l) window.open(`https://www.google.com/search?q=snaptik ${encodeURIComponent(l)}`, '_blank');
-        }
-
-        function downloadTikTokMP3() {
-            const l = document.getElementById('tiktok-link-input').value;
-            if(l) window.open(`https://www.google.com/search?q=tiktok mp3 converter ${encodeURIComponent(l)}`, '_blank');
-        }
-
-        function petaMasjidTerdekat() {
-            window.open(`https://www.google.com/maps/search/masjid+terdekat/`, '_blank');
-        }
-
-        function bukaKiblat() {
-            window.open('https://qiblafinder.withgoogle.com/', '_blank');
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            setInterval(updateWaktu, 1000);
-            updateCountdown();
-            if (localStorage.getItem('theme') === 'dark') toggleDarkMode();
-        });
-    </script>
 </body>
 </html>
